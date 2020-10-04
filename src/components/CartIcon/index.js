@@ -1,25 +1,29 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
-import SearchIcon from '@material-ui/icons/Search';
-import { CollectionsBookmarkRounded } from '@material-ui/icons';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import Cart from '../Cart';
 
-function CartIcon() {
-    const [isOpen, setIsOpen] = useState(false);
-    const handleSearchClick =() =>{
-        console.log('cart Clicked');
-        setIsOpen(!isOpen);
-    }
-
-    let cart =(isOpen? <Cart /> : null);
-    return (
-        <div className="App">
-            <ShoppingCartIcon  onClick={()=>{handleSearchClick()}}/>
-            {/* {cart} */}
-            
-        </div>
-    );
+function CartIcon(props) {
+	const [isOpen, setIsOpen] = useState(false);
+	const handleSearchClick = () => {
+		setIsOpen(!isOpen);
+	};
+	return (
+		<div style={{ display: 'flex' }} className="App">
+			<span style={{ fontSize: '20px', marginRight: '5px' }}>{props.items.length || 0}</span>
+			<ShoppingCartIcon
+				onClick={() => {
+					handleSearchClick();
+				}}
+			/>
+		</div>
+	);
 }
 
-export default CartIcon;
+const mapStateToProps = state => {
+	return {
+		items: state.addedItems,
+	};
+};
+
+export default connect(mapStateToProps, null)(CartIcon);
