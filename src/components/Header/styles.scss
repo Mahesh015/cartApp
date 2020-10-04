@@ -1,0 +1,31 @@
+// .search_icon{
+//     float:right;
+// }
+
+.homeIcon{
+    color: orange; 
+}
+
+.headerIcons{
+    display: flex;
+    //flex-direction: row;
+    justify-content: space-between;
+    width:100%;
+    
+}
+
+.menuIcons{
+   // width: 1100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+// align-items: flex-end;
+}
+
+.searchIcon{
+    padding: 0 10px;
+}
+.cartIcon{
+    padding: 0 10px;
+    color: white
+}

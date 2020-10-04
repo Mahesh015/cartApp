@@ -1,0 +1,24 @@
+.actualPrice{
+    font-size: small;
+    font-weight: bold;
+    padding: 0 5px 0 0;
+}
+
+.displayPrice{
+    font-size: 12px;
+    text-decoration: line-through;
+    padding: 0 5px;
+    color: grey
+}
+
+.discount{
+    font-size:11px;
+    font-weight: bold;
+    color: green;
+}
+
+.addButton{
+    color: yellow;
+    // background: red;
+    border-radius: 20px;
+}
