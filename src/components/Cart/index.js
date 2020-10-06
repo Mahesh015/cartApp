@@ -1,102 +1,134 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Card from '../../customComponents/Card';
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import RemoveIcon from '@material-ui/icons/Remove';
 import { addItem, removeItem, subtractQuantity } from '../actions/cartActions';
-//import styles from './styles.sccs';
-import styles from './styles.scss';
+import Button from '../../customComponents/TextButton';
+import './styles.scss';
 
 function Cart(props) {
+	const handleAddItem = name => {
+		props.addItem(name);
+	};
 
-    const handleAddItem = (name) => {
-        console.log('add Items');
-        props.addItem(name);
-    }
+	const handleDeleteItem = name => {
+		props.removeItem(name);
+	};
 
-    const handleDeleteItem = (name) => {
-        props.removeItem(name);
-    }
+	const handleSubtractQuantity = name => {
+		props.subtractQuantity(name);
+	};
+	let addedItems = props.items.length ? (
+		props.items.map((item, index) => {
+			return (
+				<div>
+					<li key={item.name}>
+						<div style={{ display: 'flex', alignItems: 'center', flexBasis: '60%' }}>
+							<img src={item.image} alt={item.img} className="image" />
+							<div>
+								<h4 className="title">{item.name}</h4>
 
-    const handleSubtractQuantity = (id) => {
-        props.subtractQuantity(id);
-    }
-    console.log('cart', props.items);
-    let addedItems = props.items.length ?
-        (
-            props.items.map(item => {
-                { console.log('inside', item) };
-                return (
-                    <div className="itemCollection" key={item.name}>
+								<p>
 
-                        {/* <div >
-                            <Card name={item.name} image={item.image} discount={item.discount} actual={item.price.actual} display={item.price.display} />
+									<b className="actualPrice">RS {item.price.actual}</b>
+									<b className="displayPrice">{item.price.display}</b>
+									<b className="discount"> {item.discount}% off</b>
+								</p>
 
-                        </div> */}
+							</div>
+						</div>
+
+						<div className="add-remove">
+							<Link to="/cart" className="removeIcon">
+								<i
+
+									onClick={() => {
+										handleSubtractQuantity(item.name);
+									}}
+
+								>
+									<RemoveIcon />
+								</i>
+							</Link>
+
+							<span style={{ fontSize: '20px', padding: '4px 10px', border: '1px solid black', margin: '10px' }}>{item.quantity}</span>
+							<i className="fa fa-plus-circle" aria-hidden="true"></i>
+							<Link to="/cart">
+								<i
+
+									onClick={() => {
+										handleAddItem(item.name);
+									}}
+								>
+									<ControlPointIcon />
+								</i>
+							</Link>
+						</div>
+
+						<div className="removeButton">
+							<Button
+								className="buttonFont"
+								onClick={() => {
+									handleDeleteItem(item.name);
+								}}
+								value='Remove'
+							>
+
+							</Button>
+						</div>
+					</li>
+
+				</div>
+			);
+		}
+		)
+	) : (
+			<p>Please Order</p>
+		);
+	let discount=props.displayPrice - props.total
+	let totalValue = props.items.length ? (
+		<div className="details">  
+			<div className="cartDetails">
+				<p className="priceDetails">PRICE DETAILS</p>
+				<b> Price( items):</b> <b>{props.displayPrice}</b>
+				<p> Discount: {discount} </p>
+			</div>
+			<p className="total"> Total Payable: {props.total}</p>
+		</div>
 
 
+	) : null
 
-
-                        <li className="" key={item.name}>
-                            <span className="">
-                                <img src={item.image} alt={item.img} className="image" />
-                                <span className="title">{item.name}</span>
-                                <p>{item.desc}</p>
-                                <p><b>Price: {item.price.display}$</b></p>
-                                {/* <p>
-                                    <b>Quantity: {item.quantity}</b>
-                                </p> */}
-                                <span className="add-remove">
-                                    <Link to="/cart"><i className="material-icons" onClick={() => { handleSubtractQuantity(item.name) }}><RemoveIcon /></i></Link>
-                                    {item.quantity}
-                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                    <Link to="/cart"><i className="material-icons" onClick={() => { handleAddItem(item.name) }}><ControlPointIcon /></i></Link>
-                                </span>
-                                <button className="waves-effect waves-light btn pink remove" onClick={() => { handleDeleteItem(item.name) }}>Remove</button>
-                            </span>
-
-                            {/* <div >
-                                
-                               
-                                
-                                
-                            </div> */}
-
-                        </li>
-                    </div>
-                )
-            })
-        ) :
-
-        (
-            <p>Nothing.</p>
-        )
-
-    return (
-        <div className="container">
-            <div className="cart">
-                <h5>You have ordered:</h5>
-                <ul className="collection">
-                    {addedItems}
-                </ul>
-            </div>
-        </div>
-    );
+	return (
+		<div className="container">
+			<div className="cart">
+				<ul >{addedItems}</ul>
+				{totalValue}
+			</div>
+		</div>
+	);
 }
-const mapStateToProps = (state) => {
-    return {
-        items: state.addedItems
-    }
-}
+const mapStateToProps = state => {
+	return {
+		items: state.addedItems,
+		total: state.total,
+		displayPrice: state.displayPrice
+	};
+};
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addItem: (name) => { dispatch(addItem(name)) },
-        removeItem: (name) => { dispatch(removeItem(name)) },
-        subtractQuantity: (name) => { dispatch(subtractQuantity(name)) }
-    }
-}
+const mapDispatchToProps = dispatch => {
+	return {
+		addItem: name => {
+			dispatch(addItem(name));
+		},
+		removeItem: name => {
+			dispatch(removeItem(name));
+		},
+		subtractQuantity: name => {
+			dispatch(subtractQuantity(name));
+		},
+	};
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart)
-
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
