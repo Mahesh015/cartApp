@@ -9,18 +9,14 @@ function Sort(props) {
 	const handleButtonClick = (sortBy, sortItems) => {
 		var sortedItems = [];
 		if (sortBy === 'Price - High Low') {
-			console.log('HL');
 			sortedItems = sortItems.sort((a, b) => b.price.actual - a.price.actual);
 		} else if (sortBy === 'Price - Low High') {
-			console.log('LH');
 			sortedItems = sortItems.sort((a, b) => a.price.actual - b.price.actual);
 		} else {
 			sortedItems = sortItems.sort((a, b) => a.discount - b.discount);
-			console.log('Discount');
 		}
 		setSortValue(sortBy);
 		props.sortedItems(sortedItems);
-		console.log('after Sort', sortedItems);
 	};
 	const sortTypes = ['Price - High Low', 'Price - Low High', 'Discount'];
 	let sortButton = sortTypes.map((item, index) => (
@@ -51,7 +47,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
 	return {
-		items: state.shopingItems,
+		items: state.shoppingItems,
 	};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Sort);

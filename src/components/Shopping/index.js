@@ -30,7 +30,7 @@ const Shopping = props => {
 
 const mapStateToProps = state => {
 	return {
-		items: state.shopingItems,
+		items: state.shoppingItems,
 	};
 };
 const mapDispatchToProps = dispatch => {

@@ -8,18 +8,15 @@ import Shopping from '../Shopping';
 import axios from 'axios';
 
 function Home() {
-	// const [dataApi, setData] = useState[{}];
 	const handleButtonClick = () => {};
-	useEffect(() => {
-		axios
-			.get('https://api.jsonbin.io/b/5f6b6cd665b18913fc51f71f')
-			.then(response => {
-				// const res = response.data.items;
-			})
-			.catch(error => {
-				// console.log('error');
-			});
-	});
+	// useEffect(() => {
+	// 	axios
+	// 		.get('https://api.jsonbin.io/b/5f6b6cd665b18913fc51f71f')
+	// 		.then(response => {
+	// 		})
+	// 		.catch(error => {
+	// 		});
+	// });
 	return (
 		<div className="App">
 			<Grid container>

@@ -1,6 +1,6 @@
 import { ADD_TO_CART, ADD_ITEM, REMOVE_ITEM, SUB_QUANTITY, SORT_ITEMS } from '../actions/actionTypes';
 const initialState = {
-	shopingItems: [
+	shoppingItems: [
 		{
 			name: 'Samsung Series 4',
 			image:
@@ -84,68 +84,80 @@ const initialState = {
 	],
 	addedItems: [],
 	total: 0,
+	displayPrice:0,
+	discount:0
 };
 
 const cartReducer = (state = initialState, action) => {
 	if (action.type === ADD_TO_CART) {
-		let addedItem = state.shopingItems.find(item => item.name === action.name);
+		let addedItem = state.shoppingItems.find(item => item.name === action.name);
 		let existedItem = state.addedItems.find(item => action.name === item.name);
 
 		if (existedItem) {
 			addedItem.quantity += 1;
 			return {
 				...state,
-				total: state.total + addedItem.price,
+				total: state.total + addedItem.price.actual,
+				displayPrice: state.displayPrice + addedItem.price.display
 			};
 		} else {
 			addedItem.quantity = 1;
-			let newTotal = state.total + addedItem.price;
+			let newTotal = state.total + addedItem.price.actual;
+			let newDisplayPrice= state.displayPrice + addedItem.price.display
 			return {
 				...state,
 				addedItems: [...state.addedItems, addedItem],
 				total: newTotal,
+				displayPrice:newDisplayPrice
 			};
 		}
 	}
 	if (action.type === ADD_ITEM) {
-		let addedItem = state.shopingItems.find(item => item.id === action.id);
+		let addedItem = state.shoppingItems.find(item => item.name === action.name);
 		addedItem.quantity += 1;
-		let newTotal = state.total + addedItem.price;
+		let newTotal = state.total + addedItem.price.actual;
+		let newDisplayPrice= state.displayPrice + addedItem.price.display
 		return {
 			...state,
 			total: newTotal,
+			displayPrice: newDisplayPrice
 		};
 	}
 	if (action.type === SUB_QUANTITY) {
-		let addedItem = state.shopingItems.find(item => item.id === action.id);
-		//if the qt == 0 then it should be removed
+		let addedItem = state.shoppingItems.find(item => item.name === action.name);
 		if (addedItem.quantity === 1) {
-			let new_items = state.addedItems.filter(item => item.id !== action.id);
-			let newTotal = state.total - addedItem.price;
+			let new_items = state.addedItems.filter(item => item.name !== action.name);
+			let newTotal = state.total - addedItem.price.actual;
+			let newDisplayPrice= state.displayPrice - addedItem.price.display
 			return {
 				...state,
 				addedItems: new_items,
 				total: newTotal,
+				displayPrice: newDisplayPrice
 			};
 		} else {
 			addedItem.quantity -= 1;
-			let newTotal = state.total - addedItem.price;
+			let newTotal = state.total - addedItem.price.actual;
+			let newDisplayPrice= state.displayPrice - addedItem.price.display
 			return {
 				...state,
 				total: newTotal,
+				displayPrice: newDisplayPrice
 			};
 		}
 	}
 	if (action.type === REMOVE_ITEM) {
-		let itemToRemove = state.addedItems.find(item => action.id === item.id);
-		let new_items = state.addedItems.filter(item => action.id !== item.id);
+		let itemToRemove = state.addedItems.find(item => action.name === item.name);
+		let new_items = state.addedItems.filter(item => action.name !== item.name);
 
-		//calculating the total
-		let newTotal = state.total - itemToRemove.price * itemToRemove.quantity;
+		
+		let newTotal = state.total - itemToRemove.price.actual * itemToRemove.quantity;
+		let newDisplayPrice= state.displayPrice - itemToRemove.price.display * itemToRemove.quantity;
 		return {
 			...state,
 			addedItems: new_items,
 			total: newTotal,
+			displayPrice: newDisplayPrice
 		};
 	}
 
@@ -153,7 +165,7 @@ const cartReducer = (state = initialState, action) => {
 		const sortedItems = new Array(...action.payload);
 		return {
 			...state,
-			shopingItems: sortedItems,
+			shoppingItems: sortedItems,
 		};
 	} else {
 		return state;

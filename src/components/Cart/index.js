@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import ControlPointIcon from '@material-ui/icons/ControlPoint';
 import RemoveIcon from '@material-ui/icons/Remove';
 import { addItem, removeItem, subtractQuantity } from '../actions/cartActions';
+import Button from '../../customComponents/TextButton';
 import './styles.scss';
 
 function Cart(props) {
@@ -15,68 +16,95 @@ function Cart(props) {
 		props.removeItem(name);
 	};
 
-	const handleSubtractQuantity = id => {
-		props.subtractQuantity(id);
+	const handleSubtractQuantity = name => {
+		props.subtractQuantity(name);
 	};
 	let addedItems = props.items.length ? (
-		props.items.map(item => {
+		props.items.map((item, index) => {
 			return (
-				<li className="" key={item.name}>
-					<div style={{ display: 'flex', alignItems: 'center' }}>
-						<img src={item.image} alt={item.img} className="image" />
-						<div>
-							<h3 className="title">{item.name}</h3>
-							<p>{item.desc}</p>
-							<p>
-								<b>Price: {item.price.display}$</b>
-							</p>
-							<button
-								className="waves-effect waves-light btn pink remove"
+				<div>
+					<li key={item.name}>
+						<div style={{ display: 'flex', alignItems: 'center', flexBasis: '60%' }}>
+							<img src={item.image} alt={item.img} className="image" />
+							<div>
+								<h4 className="title">{item.name}</h4>
+
+								<p>
+
+									<b className="actualPrice">RS {item.price.actual}</b>
+									<b className="displayPrice">{item.price.display}</b>
+									<b className="discount"> {item.discount}% off</b>
+								</p>
+
+							</div>
+						</div>
+
+						<div className="add-remove">
+							<Link to="/cart" className="removeIcon">
+								<i
+
+									onClick={() => {
+										handleSubtractQuantity(item.name);
+									}}
+
+								>
+									<RemoveIcon />
+								</i>
+							</Link>
+
+							<span style={{ fontSize: '20px', padding: '4px 10px', border: '1px solid black', margin: '10px' }}>{item.quantity}</span>
+							<i className="fa fa-plus-circle" aria-hidden="true"></i>
+							<Link to="/cart">
+								<i
+
+									onClick={() => {
+										handleAddItem(item.name);
+									}}
+								>
+									<ControlPointIcon />
+								</i>
+							</Link>
+						</div>
+
+						<div className="removeButton">
+							<Button
+								className="buttonFont"
 								onClick={() => {
 									handleDeleteItem(item.name);
 								}}
+								value='Remove'
 							>
-								Remove
-							</button>
-						</div>
-					</div>
 
-					<div className="add-remove">
-						<Link to="/cart">
-							<i
-								className="material-icons"
-								onClick={() => {
-									handleSubtractQuantity(item.name);
-								}}
-							>
-								<RemoveIcon />
-							</i>
-						</Link>
-						<span style={{ fontSize: '20px', padding: '20px' }}>{item.quantity}</span>
-						<i className="fa fa-plus-circle" aria-hidden="true"></i>
-						<Link to="/cart">
-							<i
-								className="material-icons"
-								onClick={() => {
-									handleAddItem(item.name);
-								}}
-							>
-								<ControlPointIcon />
-							</i>
-						</Link>
-					</div>
-				</li>
+							</Button>
+						</div>
+					</li>
+
+				</div>
 			);
-		})
+		}
+		)
 	) : (
-		<p>Nothing.</p>
-	);
+			<p>Please Order</p>
+		);
+	let discount=props.displayPrice - props.total
+	let totalValue = props.items.length ? (
+		<div className="details">  
+			<div className="cartDetails">
+				<p className="priceDetails">PRICE DETAILS</p>
+				<p> Price:		{props.displayPrice}</p>
+				<p> Discount: {discount} </p>
+			</div>
+			<p className="total"> Total Payable: {props.total}</p>
+		</div>
+
+
+	) : null
 
 	return (
 		<div className="container">
 			<div className="cart">
-				<h5>You have ordered:</h5>
-				<ul className="collection">{addedItems}</ul>
+				<ul >{addedItems}</ul>
+				{totalValue}
 			</div>
 		</div>
 	);
@@ -84,6 +112,8 @@ function Cart(props) {
 const mapStateToProps = state => {
 	return {
 		items: state.addedItems,
+		total: state.total,
+		displayPrice: state.displayPrice
 	};
 };
 

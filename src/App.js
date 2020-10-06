@@ -6,17 +6,6 @@ import axios from 'axios';
 import Home from './components/Home';
 
 function App() {
-	// const [dataApi, setData] = useState[{}];
-	useEffect(() => {
-		axios
-			.get('https://api.jsonbin.io/b/5f6b6cd665b18913fc51f71f')
-			.then(response => {
-				// const res = response.data.items;
-			})
-			.catch(error => {
-				// console.log('error');
-			});
-	});
 	return (
 		<BrowserRouter>
 			<div className="App">
