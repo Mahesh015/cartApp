@@ -91,7 +91,7 @@ function Cart(props) {
 		<div className="details">  
 			<div className="cartDetails">
 				<p className="priceDetails">PRICE DETAILS</p>
-				<b> Price( items):</b> <b>{props.displayPrice}</b>
+				<p> Price:		{props.displayPrice}</p>
 				<p> Discount: {discount} </p>
 			</div>
 			<p className="total"> Total Payable: {props.total}</p>
