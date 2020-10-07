@@ -30,33 +30,37 @@ function Cart(props) {
 								<h4 className="title">{item.name}</h4>
 
 								<p>
-
 									<b className="actualPrice">RS {item.price.actual}</b>
 									<b className="displayPrice">{item.price.display}</b>
 									<b className="discount"> {item.discount}% off</b>
 								</p>
-
 							</div>
 						</div>
 
 						<div className="add-remove">
 							<Link to="/cart" className="removeIcon">
 								<i
-
 									onClick={() => {
 										handleSubtractQuantity(item.name);
 									}}
-
 								>
 									<RemoveIcon />
 								</i>
 							</Link>
 
-							<span style={{ fontSize: '20px', padding: '4px 10px', border: '1px solid black', margin: '10px' }}>{item.quantity}</span>
+							<span
+								style={{
+									fontSize: '20px',
+									padding: '4px 10px',
+									border: '1px solid black',
+									margin: '10px',
+								}}
+							>
+								{item.quantity}
+							</span>
 							<i className="fa fa-plus-circle" aria-hidden="true"></i>
 							<Link to="/cart">
 								<i
-
 									onClick={() => {
 										handleAddItem(item.name);
 									}}
@@ -72,38 +76,39 @@ function Cart(props) {
 								onClick={() => {
 									handleDeleteItem(item.name);
 								}}
-								value='Remove'
-							>
-
-							</Button>
+								value="Remove"
+							></Button>
 						</div>
 					</li>
-
 				</div>
 			);
-		}
-		)
+		})
 	) : (
-			<p>Please Order</p>
-		);
-	let discount=props.displayPrice - props.total
+		<p>Please Order</p>
+	);
+	let discount = props.displayPrice - props.total;
 	let totalValue = props.items.length ? (
-		<div className="details">  
+		<div className="details">
 			<div className="cartDetails">
 				<p className="priceDetails">PRICE DETAILS</p>
-				<p> Price:		{props.displayPrice}</p>
-				<p> Discount: {discount} </p>
+				<p style={{ display: 'flex', justifyContent: 'space-between' }}>
+					{' '}
+					<span>Price: </span> <span> {props.displayPrice}</span>
+				</p>
+				<p style={{ display: 'flex', justifyContent: 'space-between' }}>
+					{' '}
+					<span>Discount: </span> <span> {discount} </span>
+				</p>
+				<p> </p>
 			</div>
 			<p className="total"> Total Payable: {props.total}</p>
 		</div>
-
-
-	) : null
+	) : null;
 
 	return (
 		<div className="container">
 			<div className="cart">
-				<ul >{addedItems}</ul>
+				<ul>{addedItems}</ul>
 				{totalValue}
 			</div>
 		</div>
@@ -113,7 +118,7 @@ const mapStateToProps = state => {
 	return {
 		items: state.addedItems,
 		total: state.total,
-		displayPrice: state.displayPrice
+		displayPrice: state.displayPrice,
 	};
 };
 

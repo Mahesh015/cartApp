@@ -1,30 +1,44 @@
-.actualPrice{
-    font-size: small;
-    font-weight: bold;
-    padding: 0 5px 0 0;
+.actualPrice {
+	font-size: small;
+	font-weight: bold;
+	padding: 0 5px 0 0;
 }
 
-.displayPrice{
-    font-size: 12px;
-    text-decoration: line-through;
-    padding: 0 5px;
-    color: grey
+.displayPrice {
+	font-size: 12px;
+	text-decoration: line-through;
+	padding: 0 5px;
+	color: grey;
 }
 
-.discount{
-    font-size:11px;
-    font-weight: bold;
-    color: green;
+.discount {
+	font-size: 11px;
+	font-weight: bold;
+	color: green;
 }
 
-.addButton{
-    color: yellow;
-    // background: red;
-    border-radius: 20px;
+.addButton {
+	color: black;
+	height: 37px;
+	width: 60%;
+	margin: 5px auto;
+	border-radius: 20px;
+	background: orange;
+	text-align: center;
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	font-weight: bold;
+	cursor: pointer;
+
+	&:hover {
+        transition: 0.3s;
+		box-shadow: 0px 10px 10px black;
+    }
 }
 
 .image {
 	width: 100px;
 	height: 100px;
-    margin-left: 30px;
+	margin-left: 30px;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 		width: 200,
 	},
 	media: {
-		height: "100px",
+		height: '100px',
 		width: '100px',
 		border: '1px solid',
 		objectFit: 'cover',
@@ -22,7 +22,16 @@ const useStyles = makeStyles({
 });
 
 export default function MediaCard(props) {
+	const [loading, setLoading] = useState(false);
 	const classes = useStyles();
+
+	const handleClick = () => {
+		setLoading(true);
+		setTimeout(() => {
+			props.onClick();
+			setLoading(false);
+		}, 1000);
+	};
 
 	return (
 		<Card className={classes.root}>
@@ -39,9 +48,10 @@ export default function MediaCard(props) {
 					</Typography>
 				</CardContent>
 			</CardActionArea>
-			<CardActions>
-				<ButtonText value="Add to Cart" onClick={props.onClick} variant="outlined" className="addButton" />
-			</CardActions>
+
+			<div onClick={handleClick} variant="outlined" className="addButton">
+				{loading ? 'adding...' : 'add to cart'}
+			</div>
 		</Card>
 	);
 }
